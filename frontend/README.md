@@ -17,7 +17,7 @@ version 9.0.0
 
 # Usage
 
-Firstly it should be generate new qr from pos simulation, after that new payment transactions show up panel simulation, process can completed by hitting 'Complete Payment' button, all transcation are listed on panel simulation module.
+Firstly it should be generated new qr code from pos simulation module, after that new payment transactions show up on panel simulation, process can completed by hitting 'Complete Payment' button, all transcation are listed on panel simulation module.
 
 # Project structure
 
