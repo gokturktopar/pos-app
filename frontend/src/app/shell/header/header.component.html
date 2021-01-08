@@ -1,0 +1,15 @@
+<mat-toolbar class="mat-elevation-z6 navbar" color="primary">
+  <div fxHide.gt-sm fxLayoutAlign="start center">
+    <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon></mat-icon>
+    </button>
+    <span class="title">{{title}}</span>
+  </div>
+  <div fxHide.lt-md>
+    <a class="brand" href="" translate>Pos Payment</a>
+    <button mat-button routerLink="/home" routerLinkActive="active">
+      <span translate>Home</span>
+    </button>
+  </div>
+  <span fxFlex></span>
+</mat-toolbar>

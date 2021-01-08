@@ -1,0 +1,96 @@
+ 
+<div class="d-flex flex-column">
+        <div class="p-2">
+            <button
+              pButton
+              class="ui-button-raised ui-button-success w-100"
+              (click)="createModal = true"
+              label="Create Qr"
+            ></button>
+          </div>
+          <div class="p-2" id="customer-view" *ngIf="qrCode">
+            <div *ngIf="!loadingPage" class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid text-sizes">
+              <div class="ui-g s-row title">
+                <div class="ui-g-12 border-0">
+                  <h3 class="text-primary">Process Details</h3>
+                  <qrcode [qrdata]="qrCode.QRdata" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+                </div>
+              </div>
+              <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid text-sizes" style="margin: 10px 0px">
+                <div class="ui-g s-row">
+                  <div class="ui-g-12 ui-md-12 d-flex">
+                    <h5>Amount:</h5>&nbsp;&nbsp;
+                    <span>{{qrCode.amount}} {{qrCode.currency}}</span>
+                  </div>
+                </div>
+                <div class="ui-g s-row">
+                  <div class="ui-g-12 ui-md-6 d-flex">
+                    <h5>Date:</h5>&nbsp;&nbsp;
+                    <span>{{qrCode.time | date: 'HH:mm:ss dd/MM/yyyy'}}</span>
+                  </div>
+                </div>
+                <div class="ui-g s-row">
+                  <div class="ui-g-12 ui-md-6 d-flex">
+                    <h5>Vatrate:</h5>&nbsp;&nbsp;
+                    <span>{{qrCode.vatRate}}</span>
+                  </div>
+                </div>
+        
+              </div>
+            </div>
+        </div>
+  </div>
+
+
+  
+<!--   <p-blockUI [blocked]="loadingPage" [baseZIndex]="99999">
+    <div class="ui-g-12" style="display: flex; justify-content: center; margin-top: 40vh;">
+      <span class="spinner-grow text-white" style="width: 5rem; height: 5rem;"></span> </div>
+  </p-blockUI> -->
+  
+
+  <div id="create-user">
+    <p-sidebar [(visible)]="createModal" [fullScreen]="true" [modal]="false"
+       (onHide)="dialogClosed()">
+      <div  class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid text-sizes">
+        <form [formGroup]="postForm">
+          <div class="ui-g px-3 s-row title">
+            <div class="ui-g-12 border-0">
+              <h3 class="text-primary">Create Qr Code</h3>
+            </div>
+          </div>
+          <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <!------------------------ CUSTOMER INFO ------------------------>
+            <div class="ui-grid-row row-s">
+              <div class="ui-grid-col-2 i-label">
+                Total Amount :
+              </div>
+              <!------------------------ Username ------------------------>
+              <div class="ui-grid-col-4">
+                <input  pInputText type="text" class="w-100"
+                  [formControlName]="'totalAmount'" [(ngModel)]="totalAmount" placeholder="Required" />
+                  <p-message severity="error"
+                  text="totalAmount is required"
+                  *ngIf="!postForm.controls['totalAmount'].valid&&postForm.controls['totalAmount'].dirty">
+                </p-message>
+              </div>
+            </div>
+            <!-----------------------SUBMIT BUTTON--------------------------->
+            <div class="ui-grid-row row-s pb-0">
+              <div class="ui-grid-col-9"></div>
+              <div class="ui-grid-col-3 mt-2 mb-2">
+                <button class="btn btn-sm btn-primary shadow w-100" (click)="generateQr()"
+                  [disabled]="!postForm.valid || loadingPage"> Save
+                  &nbsp;&nbsp;
+                  <span *ngIf="loadingPage" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </p-sidebar>
+  </div>
+<p-toast [style]="{marginTop: '80px'}" position="bottom-center"></p-toast>
+  

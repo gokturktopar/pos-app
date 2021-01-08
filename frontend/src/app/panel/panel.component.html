@@ -1,0 +1,44 @@
+   <p-blockUI [blocked]="loadingPage" [baseZIndex]="99999">
+    <div class="ui-g-12" style="display: flex; justify-content: center; margin-top: 40vh;">
+      <span class="spinner-grow text-white" style="width: 5rem; height: 5rem;"></span> </div>
+  </p-blockUI> 
+  
+
+  <div class="p-2" id="customer-view" *ngIf="payments && !loadingPage">
+    <div *ngFor="let payment of payments;" id="panel" class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid text-sizes">
+      <div class="ui-g s-row title">
+        <div class="ui-g-12 border-0">
+          <h3 *ngIf="payment.status == 1" style="color: green;">Completed Payment</h3>
+          <h3 *ngIf="payment.status == 0" style="color: gray;" >Waiting Payment</h3>
+          <qrcode [qrdata]="payment.qrCode" [width]="64" [errorCorrectionLevel]="'M'"></qrcode>
+        </div>
+      </div>
+      <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid text-sizes" style="margin: 10px 0px">
+        <div class="ui-g s-row">
+          <div class="ui-g-12 ui-md-12 d-flex">
+            <h5>Amount:</h5>&nbsp;&nbsp;
+            <span>{{payment.amount}} {{payment.currency}}</span>
+          </div>
+        </div>
+        <div class="ui-g s-row">
+          <div class="ui-g-12 ui-md-6 d-flex">
+            <h5>Date:</h5>&nbsp;&nbsp;
+            <span>{{payment.time | date: 'HH:mm:ss dd/MM/yyyy'}}</span>
+          </div>
+        </div>
+        <div class="ui-g s-row" *ngIf="payment.status == 0">
+            <div class="ui-g-12 ui-md-6 d-flex">
+                <button class="btn btn-sm btn-primary shadow w-100" (click)="completePayment(payment.qrCode)"
+                [disabled]="loadingPost"> Complete Payment
+                &nbsp;&nbsp;
+                <span *ngIf="loadingPage" class="spinner-border spinner-border-sm" role="status"
+                  aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>
+<h3 *ngIf="!payments && !loadingPage"> No Transaction</h3>
+<p-toast [style]="{marginTop: '80px'}" position="bottom-center"></p-toast>
+  

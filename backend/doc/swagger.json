@@ -1,0 +1,277 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is basic restful api documentation of pos app",
+    "version": "1.0.0",
+    "title": "Pos Api",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "gokturktopar@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "",
+  "tags": [
+    {
+      "name": "pos",
+      "description": "Operations make with pos machine"
+    },
+    {
+      "name": "customer",
+      "description": "Operations about customer"
+    },
+    {
+      "name": "payments",
+      "description": "Operations about payment"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/pos/generate-qr-code": {
+      "post": {
+        "tags": [
+          "pos"
+        ],
+        "summary": "Generate qr code",
+        "security": [
+          {
+            "x-access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Code",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GenerateQrCode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succesful response",
+            "schema": {
+              "$ref": "#/definitions/GeneratedQrCode"
+            }
+          },
+          "400": {
+            "description": "Error occured"
+          }
+        }
+      }
+    },
+    "/api/customers/generate-customer-id": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Generate new id",
+        "operationId": "generateId",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns generated id",
+            "schema": {
+              "$ref": "#/definitions/GenerateCustomerId"
+            }
+          },
+          "400": {
+            "description": "Error occured"
+          }
+        }
+      }
+    },
+    "/api/payments": {
+      "get": {
+        "tags": [
+          "payments"
+        ],
+        "security": [
+          {
+            "x-access-token": []
+          }
+        ],
+        "summary": "Get all customer payments",
+        "operationId": "getAllCustomerPayments",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "description": "customer id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns customer payments",
+            "schema": {
+              "$ref": "#/definitions/Payments"
+            }
+          },
+          "400": {
+            "description": "Error occured"
+          }
+        }
+      }
+    },
+    "/api/payments/complete-payment": {
+      "post": {
+        "tags": [
+          "payments"
+        ],
+        "security": [
+          {
+            "x-access-token": []
+          }
+        ],
+        "summary": "Complete payment process",
+        "operationId": "completePayment",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Code",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CompletePayment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns payment result",
+            "schema": {
+              "$ref": "#/definitions/CompletePaymentResult"
+            }
+          },
+          "400": {
+            "description": "Error occured"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Payments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Payment"
+      }
+    },
+    "Payment": {
+      "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "integer"
+          },
+          "time": {
+            "type": "string",
+            "format":"date"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "qrCode":{
+            "type":"string"
+          }
+        }
+    },
+    "GenerateQrCode": {
+      "type": "object",
+        "properties": {
+          "totalReceiptAmount": {
+            "type": "integer"
+          },
+          "customerId": {
+            "type": "string"
+          }
+        }
+    },
+    "GeneratedQrCode": {
+      "type": "object",
+        "properties": {
+          "returnCode": {
+            "type": "integer"
+          },
+          "returnDesc": {
+            "type": "string"
+          },
+          "QRdata": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "integer"
+          },
+          "time": {
+            "type": "string",
+            "format":"date"
+          },
+          "vatRate": {
+            "type": "integer"
+          },
+          "currencyId": {
+            "type": "integer"
+          }
+        }
+    },
+    "GenerateCustomerId": {
+      "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+    },
+    "CompletePayment":{
+      "type": "object",
+        "properties": {
+          "qrData": {
+            "type": "string"
+          }
+        }
+    },
+    "CompletePaymentResult": {
+      "type": "object",
+        "properties": {
+          "applicationID": {
+            "type": "string"
+          },
+          "sessionID": {
+            "type": "string"
+          },
+          "posID": {
+            "type": "string"
+          },
+          "returnCode": {
+            "type": "integer"
+          },
+          "returnDesc": {
+            "type": "string"
+          }
+        }
+    }
+  }
+}

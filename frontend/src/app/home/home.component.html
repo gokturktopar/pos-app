@@ -1,0 +1,23 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-6 border-right">
+    <h4>POS SIMULATION</h4>
+      <app-pos (output)="getOutputFromPos($event)"></app-pos>
+    </div>
+    <div class="col-6">
+    <h4>PANEL SIMULATION</h4>
+      <div class="d-flex flex-column">
+        <div class="p-2">
+          <span class="d-block">  <b> CUSTOMER ID: {{customerId}} </b> </span> 
+        </div>
+        <div class="p-2">
+          <app-panel [changed]="panelChanged" [customerId]="customerId"></app-panel>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
