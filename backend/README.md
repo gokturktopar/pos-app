@@ -1,7 +1,7 @@
 # Pos Payment App
 
 
-This project was written Nodejs +V14.
+This project was written with Nodejs +V14.
 
 # Getting started
 
